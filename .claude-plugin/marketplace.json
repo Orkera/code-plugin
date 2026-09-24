@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "orkera",
+  "owner": {
+    "name": "Orkera",
+    "email": "hello@orkera.dev",
+    "url": "https://orkera.dev"
+  },
+  "description": "Deploy applications with Orkera from Claude Code.",
+  "plugins": [
+    {
+      "name": "orkera",
+      "source": "./plugins/orkera",
+      "description": "Deploy a Dockerized application with Orkera.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Orkera",
+        "url": "https://orkera.dev"
+      },
+      "homepage": "https://orkera.dev",
+      "repository": "https://github.com/Orkera/claude-code-plugin",
+      "license": "MIT",
+      "keywords": ["deployment", "docker", "mcp", "orkera"],
+      "category": "deployment",
+      "tags": ["deployment", "docker", "mcp"]
+    }
+  ]
+}

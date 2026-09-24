@@ -1,0 +1,15 @@
+{
+  "name": "orkera",
+  "displayName": "Orkera",
+  "version": "0.1.0",
+  "description": "Deploy Dockerized applications with Orkera from Claude Code.",
+  "author": {
+    "name": "Orkera",
+    "url": "https://orkera.dev"
+  },
+  "homepage": "https://orkera.dev",
+  "repository": "https://github.com/Orkera/claude-code-plugin",
+  "license": "MIT",
+  "keywords": ["deployment", "docker", "mcp", "orkera"],
+  "mcpServers": "./.mcp.json"
+}

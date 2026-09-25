@@ -1,0 +1,7 @@
+{
+  "name": "orkera",
+  "version": "0.1.0",
+  "description": "Deploy Dockerized applications with Orkera from Codex.",
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json"
+}

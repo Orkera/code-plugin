@@ -7,8 +7,15 @@ Deploy a Dockerized app with Orkera directly from Claude Code.
 In Claude Code, add the Orkera marketplace and install the plugin:
 
 ```bash
-claude plugin marketplace add Orkera/claude-code-plugin
+claude plugin marketplace add Orkera/code-plugin
 claude plugin install orkera@orkera
+```
+
+In Codex:
+
+```bash
+codex plugin marketplace add Orkera/code-plugin
+codex plugin add orkera@orkera
 ```
 
 The plugin adds the hosted Orkera MCP server. On first use, Claude Code opens the Orkera OAuth sign-in flow; no local token or adapter is required.

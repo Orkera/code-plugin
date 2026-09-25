@@ -17,12 +17,13 @@ Use the bundled Orkera MCP server to deploy the user's application. The user and
 
 ## Deployment flow
 
-1. Call `create_workspace` when there is no known Orkera workspace for this app. Keep its `workspace_id`.
-2. Call `get_git_credentials`, add the returned remote locally, and push the exact commit to it. Never expose the returned token.
-3. Call `build` with the workspace ID and the full Git commit SHA. Use `get_build` to inspect progress and build logs until it reaches a terminal state.
-4. If the application needs persistent SQLite storage, call `create_db`. The application receives its database connection through `ORKERA_DB_URL`; do not ask the user for it or set it manually.
-5. Call `run` once after a successful build. Check `get_workspace` for its state rather than repeating `run` blindly.
-6. Call `forward_port` only for the application HTTP port. Its returned URL is public; never expose a database port.
+1. Call `list_workspaces` when there is no known Orkera workspace for this app. Reuse a workspace only when the user has identified it or its purpose is unambiguous. If another workspace is already present and a new app is needed, explain the limit and ask the user whether to reuse or delete it.
+2. Call `create_workspace` only when a new workspace is appropriate. If it reports a workspace limit, use the returned workspace details or `list_workspaces`; never delete an existing workspace automatically.
+3. Call `get_git_credentials`, add the returned remote locally, and push the exact commit to it. Never expose the returned token.
+4. Call `build` with the workspace ID and the full Git commit SHA. Use `get_build` to inspect progress and build logs until it reaches a terminal state.
+5. If the application needs persistent SQLite storage, call `create_db`. The application receives its database connection through `ORKERA_DB_URL`; do not ask the user for it or set it manually.
+6. Call `run` once after a successful build. Check `get_workspace` for its state rather than repeating `run` blindly.
+7. Call `forward_port` only for the application HTTP port. Its returned URL is public; never expose a database port.
 
 ## Failures and lifecycle
 

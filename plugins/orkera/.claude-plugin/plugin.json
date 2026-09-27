@@ -1,7 +1,7 @@
 {
   "name": "orkera",
   "displayName": "Orkera",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Deploy Dockerized applications with Orkera from Claude Code.",
   "author": {
     "name": "Orkera",

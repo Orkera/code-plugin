@@ -1,7 +1,26 @@
 {
   "name": "orkera",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Deploy Dockerized applications with Orkera from Codex.",
+  "author": {
+    "name": "Orkera",
+    "email": "hello@orkera.dev",
+    "url": "https://orkera.dev"
+  },
+  "homepage": "https://orkera.dev",
+  "repository": "https://github.com/Orkera/code-plugin",
+  "license": "MIT",
+  "keywords": ["deployment", "docker", "mcp", "orkera"],
   "skills": "./skills/",
-  "mcpServers": "./.mcp.json"
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Orkera",
+    "shortDescription": "Deploy Dockerized apps with your coding agent.",
+    "longDescription": "Deploy Dockerized applications through the Orkera MCP server.",
+    "developerName": "Orkera",
+    "category": "Developer tools",
+    "capabilities": ["MCP tools", "Deployment workflow"],
+    "websiteURL": "https://orkera.dev",
+    "defaultPrompt": ["Deploy this Dockerized app with Orkera."]
+  }
 }

@@ -13,16 +13,18 @@ Use the bundled Orkera MCP tools to deploy the user's project. The coding agent 
 - Identify the app's HTTP port and make sure it listens on `0.0.0.0` inside the container. Pass that exact listening port to `forward_port`; `0.0.0.0` is only the bind address, not the public URL.
 - Check that the Dockerfile starts the web server in the foreground so the container stays alive. Do not assume Orkera guesses the app's startup command.
 - Preserve unrelated user changes. Commit only the deployable app changes; never push unrelated or uncommitted work.
-- Never print, commit, place in a persistent Git remote URL, or otherwise disclose a Git credential returned by Orkera. Use a temporary credential mechanism for Git HTTPS operations and remove it afterward.
+- Never print, commit, place in a persistent Git remote URL, or otherwise disclose a Git credential returned by Orkera. Use a temporary `GIT_ASKPASS` helper for Git HTTPS operations and delete it immediately after the push. Keep the Git remote free of credentials.
 - Use `build(env_vars={...})` only for additional, non-sensitive runtime configuration. The agent can see every value passed to this MCP tool, so do not request or transmit passwords, API keys, tokens, or other secrets through chat or `env_vars`.
 - If deployment requires a secret that is not configured, tell the user to add it through the Orkera UI when secret management is available, then pause any step that depends on it. If that UI is not available yet, explain that secret injection is not supported through MCP and pause. Do not ask the user to paste the secret into chat. Names beginning with `ORKERA_` are reserved.
 
 ## Workspace and Git
 
-1. Call `list_workspaces` before creating a workspace. Orkera V0 allows one workspace per account. Reuse an existing workspace only when it is clearly the workspace for this app; if ownership or intended app is ambiguous, ask before changing it. Never delete a workspace to get around the limit.
-2. If a new workspace is appropriate, call `create_workspace`. Its response includes the Git URL and the initial short-lived Git credentials under `git`; use those credentials as-is. Do not immediately call `get_git_credentials`, because that rotates the credential. For an existing workspace, call `get_workspace` and then `get_git_credentials` when fresh Git credentials are needed.
-3. Add the returned Git URL as a remote, commit the intended source changes, and push the exact commit to the repository's `main` branch. Do not assume that creating a workspace pushes or builds the user's local code.
-4. Record the full commit SHA locally. Pass that SHA to `build`; do not build a branch name or a different commit.
+1. Orkera V0 allows one workspace per account. If the user supplies an existing workspace ID, inspect it with `get_workspace` and reuse it only when it is clearly for this app. Otherwise call `create_workspace`; if it reports the workspace limit, use the returned workspace details to explain the available recovery choices. Never delete a workspace to get around the limit.
+2. If a new workspace is appropriate, call `create_workspace`. Its response includes the Git URL and an initial short-lived credential under `git`; configure the temporary `GIT_ASKPASS` helper with that exact credential and use it for the push. Do not immediately call `get_git_credentials`.
+3. `get_git_credentials` **rotates** the repository credential: it revokes the previously issued token and returns a replacement. Use it only for an existing workspace or after a real credential failure/expiry. When it is called, discard the old temporary helper, recreate it with the returned username and token, then retry the Git operation once. Never reuse the former helper or call this tool repeatedly.
+4. A first HTTP `401` during a Git HTTPS exchange is normally Git's authentication challenge, not proof that Orkera rejected the credential. Treat authentication as failed only if Git fails after invoking the configured `GIT_ASKPASS` helper (for example, a final `Authentication failed` error).
+5. Add the returned Git URL as a remote, commit the intended source changes, and push the exact commit to the repository's `main` branch. Do not assume that creating a workspace pushes or builds the user's local code.
+6. Record the full commit SHA locally. Pass that SHA to `build`; do not build a branch name or a different commit.
 
 ## Build, database, and run
 

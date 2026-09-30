@@ -17,6 +17,13 @@ Use the bundled Orkera MCP tools to deploy the user's project. The coding agent 
 - Use `build(env_vars={...})` only for additional, non-sensitive runtime configuration. The agent can see every value passed to this MCP tool, so do not request or transmit passwords, API keys, tokens, or other secrets through chat or `env_vars`.
 - If deployment requires a secret that is not configured, tell the user to add it through the Orkera UI when secret management is available, then pause any step that depends on it. If that UI is not available yet, explain that secret injection is not supported through MCP and pause. Do not ask the user to paste the secret into chat. Names beginning with `ORKERA_` are reserved.
 
+## Community listing and app descriptions
+
+- A running app with a public URL appears automatically in Orkera's Community apps page. The gallery preview loads the app's real public URL in an iframe; it is not generated from a screenshot and needs no separate upload or MCP call.
+- Before creating a workspace, inspect the project to understand what the app does and who it is for. Write one clear, factual sentence of at most 240 characters and pass it as `description` to `create_workspace`. The description is public, so do not include private details, secrets, or claims the app does not support. If the purpose is unclear, ask the user or leave it blank rather than inventing one.
+- If the workspace already exists, call `update_workspace` with the same concise description after inspecting the project. Update it if the app's purpose changes materially.
+- Make the app's root page useful and responsive at a narrow viewport, since that is what the gallery embeds. Avoid a blank root page or a login wall when the app is intended to be publicly previewable. Do not weaken CSP, frame, or authentication protections just to force an embed; if the app blocks framing, keep the direct app link working and tell the user that its preview may be limited.
+
 ## Workspace and Git
 
 1. Orkera V0 allows one workspace per account. If the user supplies an existing workspace ID, inspect it with `get_workspace` and reuse it only when it is clearly for this app. Otherwise call `create_workspace`; if it reports the workspace limit, use the returned workspace details to explain the available recovery choices. Never delete a workspace to get around the limit.

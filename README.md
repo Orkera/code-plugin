@@ -40,6 +40,6 @@ Every project needs a root `Dockerfile`. The agent commits and pushes the applic
 
 - Adds `https://mcp.orkera.dev/mcp` as a remote HTTP MCP server.
 - Uses OAuth for authentication.
-- Teaches Claude the safe deployment lifecycle: workspace, Git push, build, run, and public port forwarding.
+- Teaches Claude the safe deployment lifecycle: workspace, Git push, deploy with an explicit HTTP port, and operation tracking.
 
 For more information, visit [orkera.dev](https://orkera.dev).

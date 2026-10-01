@@ -43,3 +43,7 @@ Every project needs a root `Dockerfile`. The agent commits and pushes the applic
 - Teaches Claude the safe deployment lifecycle: workspace, Git push, deploy with an explicit HTTP port, and operation tracking.
 
 For more information, visit [orkera.dev](https://orkera.dev).
+
+## Runtime secrets
+
+Your agent asks you for the exact variable names an app needs, then directs you to the workspace’s **Runtime secrets** section on Orkera. Enter values there, never in chat or Git. The `list_secrets` tool exposes names and update dates only. Values are encrypted at rest and injected into the container on the next deployment or restart; they are not Docker build arguments.

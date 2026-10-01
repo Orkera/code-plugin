@@ -12,7 +12,7 @@
       "name": "orkera",
       "source": "./plugins/orkera",
       "description": "Deploy a Dockerized application with Orkera.",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "author": {
         "name": "Orkera",
         "url": "https://orkera.dev"
